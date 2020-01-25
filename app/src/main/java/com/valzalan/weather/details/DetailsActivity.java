@@ -1,15 +1,19 @@
-package com.valzalan.weather;
+package com.valzalan.weather.details;
 
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class DetailsView extends AppCompatActivity {
+import com.valzalan.weather.R;
+
+public class DetailsActivity extends AppCompatActivity implements DetailsView {
+    private DetailsPresenter presenter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+        presenter = new BasicDetailsPresenter(this);
     }
 }
