@@ -4,6 +4,12 @@
     <string name="details">Details</string>
     <string name="chance_of_rain">Chance of rain</string>
     <string name="next_7_days">Next 7 days</string>
+    <string name="feels_like">Feels like</string>
+    <string name="wind">Wind</string>
+    <string name="humidity">Humidity</string>
+    <string name="pressure">Pressure</string>
+    <string name="visibility">Visibility</string>
+    <string name="dew_point">Dew Point</string>
 
     <!-- Content Descriptions -->
     <string name="cd_menu">Menu</string>

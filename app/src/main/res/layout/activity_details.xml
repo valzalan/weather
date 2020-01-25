@@ -35,13 +35,70 @@
         app:srcCompat="@color/primaryText"
         tools:ignore="ContentDescription" />
 
-    <GridView
-        android:id="@+id/gvDetails"
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/flDetailsItemContainer"
         android:layout_width="0dp"
         android:layout_height="200dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        app:alignContent="stretch"
+        app:alignItems="stretch"
+        app:flexWrap="wrap"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDetails" />
+        app:layout_constraintTop_toBottomOf="@+id/tvDetails">
+
+        <com.valzalan.weather.components.DetailsItemView
+            android:id="@+id/diFeelsLike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_flexGrow="1"
+            app:layout_minWidth="80dp"
+            app:di_title="@string/feels_like" />
+
+        <com.valzalan.weather.components.DetailsItemView
+            android:id="@+id/diWind"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_flexGrow="1"
+            app:layout_minWidth="80dp"
+            app:di_title="@string/wind" />
+
+        <com.valzalan.weather.components.DetailsItemView
+            android:id="@+id/diHumidity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_flexGrow="1"
+            app:layout_minWidth="80dp"
+            app:di_title="@string/humidity" />
+
+        <com.valzalan.weather.components.DetailsItemView
+            android:id="@+id/diPressure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_flexGrow="1"
+            app:layout_minWidth="80dp"
+            app:di_title="@string/pressure" />
+
+        <com.valzalan.weather.components.DetailsItemView
+            android:id="@+id/diVisibility"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_flexGrow="1"
+            app:layout_minWidth="80dp"
+            app:di_title="@string/visibility" />
+
+        <com.valzalan.weather.components.DetailsItemView
+            android:id="@+id/diDewPoint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_flexGrow="1"
+            app:layout_minWidth="80dp"
+            app:di_title="@string/dew_point" />
+    </com.google.android.flexbox.FlexboxLayout>
 
     <TextView
         android:id="@+id/tvRainChance"
@@ -55,7 +112,7 @@
         android:textSize="18sp"
         app:fontFamily="sans-serif-light"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gvDetails" />
+        app:layout_constraintTop_toBottomOf="@+id/flDetailsItemContainer" />
 
     <ImageView
         android:id="@+id/ivRainChanceDivider"
@@ -75,7 +132,7 @@
     <Space
         android:id="@+id/space"
         android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_height="180dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvRainChance" />

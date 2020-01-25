@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="DetailsItemView">
+        <attr name="di_title" format="string"/>
+        <attr name="di_value" format="string"/>
+        <attr name="di_icon" format="reference"/>
+    </declare-styleable>
+</resources>
