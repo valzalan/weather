@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
+
+    <TextView
+        android:id="@+id/tvDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/pageMargin"
+        android:layout_marginLeft="@dimen/pageMargin"
+        android:layout_marginTop="@dimen/pageMargin"
+        android:text="@string/details"
+        android:textColor="@color/primaryText"
+        android:textSize="18sp"
+        app:fontFamily="sans-serif-light"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ivDetailsDivider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="@dimen/pageMargin"
+        android:layout_marginRight="@dimen/pageMargin"
+        app:layout_constraintBottom_toBottomOf="@+id/tvDetails"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvDetails"
+        app:layout_constraintTop_toTopOf="@+id/tvDetails"
+        app:srcCompat="@color/primaryText"
+        tools:ignore="ContentDescription" />
+
+    <GridView
+        android:id="@+id/gvDetails"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvDetails" />
+
+    <TextView
+        android:id="@+id/tvRainChance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/pageMargin"
+        android:layout_marginLeft="@dimen/pageMargin"
+        android:layout_marginTop="24dp"
+        android:text="@string/chance_of_rain"
+        android:textColor="@color/primaryText"
+        android:textSize="18sp"
+        app:fontFamily="sans-serif-light"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gvDetails" />
+
+    <ImageView
+        android:id="@+id/ivRainChanceDivider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="@dimen/pageMargin"
+        android:layout_marginRight="@dimen/pageMargin"
+        app:layout_constraintBottom_toBottomOf="@+id/tvRainChance"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvRainChance"
+        app:layout_constraintTop_toTopOf="@+id/tvRainChance"
+        app:srcCompat="@color/primaryText"
+        tools:ignore="ContentDescription" />
+
+    <Space
+        android:id="@+id/space"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvRainChance" />
+
+    <TextView
+        android:id="@+id/tvForecast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/next_7_days"
+        android:textColor="@color/primaryText"
+        android:textSize="18sp"
+        app:fontFamily="sans-serif-light"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/space" />
+
+    <ImageView
+        android:id="@+id/ivForecastDivider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="@dimen/pageMargin"
+        android:layout_marginRight="@dimen/pageMargin"
+        app:layout_constraintBottom_toBottomOf="@+id/tvForecast"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvForecast"
+        app:layout_constraintTop_toTopOf="@+id/tvForecast"
+        app:srcCompat="@color/primaryText"
+        tools:ignore="ContentDescription" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvForecast"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/pageMargin"
+        android:layout_marginLeft="@dimen/pageMargin"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="@dimen/pageMargin"
+        android:layout_marginRight="@dimen/pageMargin"
+        android:layout_marginBottom="@dimen/pageMargin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvForecast" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

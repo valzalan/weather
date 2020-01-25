@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Weather</string>
+    <string name="details">Details</string>
+    <string name="chance_of_rain">Chance of rain</string>
+    <string name="next_7_days">Next 7 days</string>
+
+    <!-- Content Descriptions -->
+    <string name="cd_menu">Menu</string>
+    <string name="cd_add_new_location">Add new location</string>
 </resources>
