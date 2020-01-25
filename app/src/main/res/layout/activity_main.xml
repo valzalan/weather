@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    tools:context=".MainActivity" >
+
+    <ImageButton
+        android:id="@+id/ibMenu"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="@dimen/pageMargin"
+        android:layout_marginLeft="@dimen/pageMargin"
+        android:layout_marginTop="@dimen/pageMargin"
+        android:background="#00FFFFFF"
+        android:scaleType="fitCenter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_menu" />
+
+    <TextView
+        android:id="@+id/tvLocationName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="@dimen/pageMargin"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="Barbados"
+        android:textColor="@color/primaryText"
+        android:textSize="24sp"
+        app:fontFamily="sans-serif-light"
+        app:layout_constraintEnd_toStartOf="@+id/ibAdd"
+        app:layout_constraintStart_toEndOf="@+id/ibMenu"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/ibAdd"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="@dimen/pageMargin"
+        android:layout_marginEnd="@dimen/pageMargin"
+        android:layout_marginRight="@dimen/pageMargin"
+        android:background="#00FFFFFF"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_plus" />
+
+    <TextView
+        android:id="@+id/tvDateAndTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/pageMargin"
+        android:layout_marginLeft="@dimen/pageMargin"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="@dimen/pageMargin"
+        android:layout_marginRight="@dimen/pageMargin"
+        android:text="Sat, 1:40 pm"
+        android:textColor="@color/primaryText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvLocationName" />
+
+    <TextView
+        android:id="@+id/tvTempCurrent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/pageMargin"
+        android:layout_marginLeft="@dimen/pageMargin"
+        android:includeFontPadding="false"
+        android:singleLine="true"
+        android:text="28°"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display4"
+        android:textColor="@color/primaryText"
+        android:textSize="128sp"
+        app:fontFamily="sans-serif-thin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvWeather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Clear"
+        android:textColor="@color/primaryText"
+        android:textSize="36sp"
+        app:fontFamily="sans-serif-light"
+        app:layout_constraintBottom_toTopOf="@+id/tvTempCurrent"
+        app:layout_constraintEnd_toEndOf="@+id/tvTempCurrent"
+        app:layout_constraintStart_toStartOf="@+id/tvTempCurrent" />
+
+    <TextView
+        android:id="@+id/tvTempMax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/pageMargin"
+        android:layout_marginRight="@dimen/pageMargin"
+        android:layout_marginBottom="8dp"
+        android:text="35 °C"
+        android:textColor="@color/primaryText"
+        android:textSize="24sp"
+        app:fontFamily="sans-serif-light"
+        app:layout_constraintBottom_toTopOf="@id/ivDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvTempCurrent"
+        app:layout_constraintTop_toTopOf="@+id/tvTempCurrent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <ImageView
+        android:id="@+id/ivDivider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@+id/tvTempMin"
+        app:layout_constraintEnd_toEndOf="@+id/tvTempMax"
+        app:layout_constraintStart_toStartOf="@+id/tvTempMax"
+        app:layout_constraintTop_toBottomOf="@+id/tvTempMax"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:srcCompat="@color/primaryText" />
+
+    <TextView
+        android:id="@+id/tvTempMin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="@dimen/pageMargin"
+        android:layout_marginRight="@dimen/pageMargin"
+        android:text="12 °C"
+        android:textColor="@color/primaryText"
+        android:textSize="24sp"
+        app:fontFamily="sans-serif-light"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTempCurrent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvTempCurrent"
+        app:layout_constraintTop_toBottomOf="@id/ivDivider"
+        app:layout_constraintVertical_chainStyle="packed" />
+</androidx.constraintlayout.widget.ConstraintLayout>
