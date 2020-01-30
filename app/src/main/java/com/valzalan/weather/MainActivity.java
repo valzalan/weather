@@ -21,10 +21,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
     private static final String TAG = "MainActivity";
     private MainPresenter presenter;
 
-    private final String API_KEY = "48f93f8337d0b5b9dcb351c452a7fc38";
-    private final double BUD_LAT = 47.4979;
-    private final double BUD_LONG = 19.0402;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,24 +28,6 @@ public class MainActivity extends AppCompatActivity implements MainView {
         presenter = new BasicMainPresenter(this);
         findViewById(R.id.button).setOnClickListener(v -> startDetailsView());
         findViewById(R.id.ibAdd).setOnClickListener(v -> startSearchView());
-
-        GetForecastEndpoint endpoint = RetrofitClient.getRetrofitInstance().create(GetForecastEndpoint.class);
-        Call<ForecastResponse> call = endpoint.getForecast(API_KEY, BUD_LAT, BUD_LONG);
-        call.enqueue(new Callback<ForecastResponse>() {
-            @Override
-            public void onResponse(Call<ForecastResponse> call, Response<ForecastResponse> response) {
-                Log.d(TAG, "Success");
-                Log.d(TAG, response.body().getTimezone());
-                Log.d(TAG, response.body().getDailyWeather().getSummary());
-            }
-
-            @Override
-            public void onFailure(Call<ForecastResponse> call, Throwable t) {
-                Log.e(TAG, "Error");
-                Log.e(TAG, t.getMessage());
-            }
-        });
-
     }
 
     @Override
