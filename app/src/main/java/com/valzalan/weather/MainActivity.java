@@ -35,17 +35,17 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
         GetForecastEndpoint endpoint = RetrofitClient.getRetrofitInstance().create(GetForecastEndpoint.class);
         Call<ForecastResponse> call = endpoint.getForecast(API_KEY, BUD_LAT, BUD_LONG);
-        Log.d(TAG, "ENQUEUEING!!!!!!!!!!!!");
         call.enqueue(new Callback<ForecastResponse>() {
             @Override
             public void onResponse(Call<ForecastResponse> call, Response<ForecastResponse> response) {
-                Log.d(TAG, "SUCCESS!!!!!!!!!!");
-                Log.d(TAG, response.body().toString());
+                Log.d(TAG, "Success");
+                Log.d(TAG, response.body().getTimezone());
+                Log.d(TAG, response.body().getDailyWeather().getSummary());
             }
 
             @Override
             public void onFailure(Call<ForecastResponse> call, Throwable t) {
-                Log.e(TAG, "ERROR!!!!!!!!!!!!");
+                Log.e(TAG, "Error");
                 Log.e(TAG, t.getMessage());
             }
         });

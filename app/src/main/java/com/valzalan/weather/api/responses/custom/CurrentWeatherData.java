@@ -1,6 +1,7 @@
-package com.valzalan.weather.api.responses;
+package com.valzalan.weather.api.responses.custom;
 
 import com.google.gson.annotations.SerializedName;
+import com.valzalan.weather.api.responses.custom.precipitation.PrecipitationData;
 
 public class CurrentWeatherData {
     @SerializedName("time")
@@ -11,14 +12,7 @@ public class CurrentWeatherData {
     private String icon;
     @SerializedName("nearestStormDistance")
     private double nearestStormDistance;
-    @SerializedName("precipIntensity")
-    private double precipIntensity;
-    @SerializedName("precipIntensityError")
-    private double precipIntensityError;
-    @SerializedName("precipProbability")
-    private double precipProbability;
-    @SerializedName("precipType")
-    private String precipType;
+    private PrecipitationData precipitationData;
     @SerializedName("temperature")
     private double temperature;
     @SerializedName("apparentTemperature")
@@ -29,12 +23,7 @@ public class CurrentWeatherData {
     private double humidity;
     @SerializedName("pressure")
     private double pressure;
-    @SerializedName("windSpeed")
-    private double windSpeed;
-    @SerializedName("windGust")
-    private double windGust;
-    @SerializedName("windBearing")
-    private double windBearing;
+    private WindData windData;
     @SerializedName("cloudCover")
     private double cloudCover;
     @SerializedName("uvIndex")
@@ -45,27 +34,20 @@ public class CurrentWeatherData {
     private double ozone;
 
     public CurrentWeatherData(long time, String summary, String icon, double nearestStormDistance,
-                              double precipIntensity, double precipIntensityError,
-                              double precipProbability, String precipType, double temperature,
-                              double apparentTemperature, double dewPoint, double humidity,
-                              double pressure, double windSpeed, double windGust, double windBearing,
+                              PrecipitationData precipitationData, double temperature, double apparentTemperature,
+                              double dewPoint, double humidity, double pressure, WindData windData,
                               double cloudCover, double uvIndex, double visibility, double ozone) {
         this.time = time;
         this.summary = summary;
         this.icon = icon;
         this.nearestStormDistance = nearestStormDistance;
-        this.precipIntensity = precipIntensity;
-        this.precipIntensityError = precipIntensityError;
-        this.precipProbability = precipProbability;
-        this.precipType = precipType;
+        this.precipitationData = precipitationData;
         this.temperature = temperature;
         this.apparentTemperature = apparentTemperature;
         this.dewPoint = dewPoint;
         this.humidity = humidity;
         this.pressure = pressure;
-        this.windSpeed = windSpeed;
-        this.windGust = windGust;
-        this.windBearing = windBearing;
+        this.windData = windData;
         this.cloudCover = cloudCover;
         this.uvIndex = uvIndex;
         this.visibility = visibility;
@@ -88,20 +70,8 @@ public class CurrentWeatherData {
         return nearestStormDistance;
     }
 
-    public double getPrecipIntensity() {
-        return precipIntensity;
-    }
-
-    public double getPrecipIntensityError() {
-        return precipIntensityError;
-    }
-
-    public double getPrecipProbability() {
-        return precipProbability;
-    }
-
-    public String getPrecipType() {
-        return precipType;
+    public PrecipitationData getPrecipitationData() {
+        return precipitationData;
     }
 
     public double getTemperature() {
@@ -124,16 +94,8 @@ public class CurrentWeatherData {
         return pressure;
     }
 
-    public double getWindSpeed() {
-        return windSpeed;
-    }
-
-    public double getWindGust() {
-        return windGust;
-    }
-
-    public double getWindBearing() {
-        return windBearing;
+    public WindData getWindData() {
+        return windData;
     }
 
     public double getCloudCover() {

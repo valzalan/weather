@@ -22,23 +22,11 @@ public class MinutelyWeather {
         return summary;
     }
 
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-
     public String getIcon() {
         return icon;
     }
 
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
     public List<MinutelyWeatherData> getData() {
         return data;
-    }
-
-    public void setData(List<MinutelyWeatherData> data) {
-        this.data = data;
     }
 }

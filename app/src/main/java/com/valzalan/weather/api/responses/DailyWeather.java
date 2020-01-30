@@ -22,23 +22,11 @@ public class DailyWeather {
         return summary;
     }
 
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-
     public String getIcon() {
         return icon;
     }
 
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
     public List<DailyWeatherData> getData() {
         return data;
-    }
-
-    public void setData(List<DailyWeatherData> data) {
-        this.data = data;
     }
 }

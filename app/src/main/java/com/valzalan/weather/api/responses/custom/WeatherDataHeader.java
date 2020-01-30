@@ -1,18 +1,18 @@
-package com.valzalan.weather.api.responses;
+package com.valzalan.weather.api.responses.custom;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class HourlyWeather {
+public class WeatherDataHeader<T> {
     @SerializedName("summary")
     private String summary;
     @SerializedName("icon")
     private String icon;
     @SerializedName("data")
-    private List<HourlyWeatherData> data;
+    private List<T> data;
 
-    public HourlyWeather(String summary, String icon, List<HourlyWeatherData> data) {
+    public WeatherDataHeader(String summary, String icon, List<T> data) {
         this.summary = summary;
         this.icon = icon;
         this.data = data;
@@ -26,7 +26,7 @@ public class HourlyWeather {
         return icon;
     }
 
-    public List<HourlyWeatherData> getData() {
+    public List<T> getData() {
         return data;
     }
 }
