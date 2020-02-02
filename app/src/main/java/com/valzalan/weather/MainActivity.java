@@ -25,10 +25,10 @@ public class MainActivity extends AppCompatActivity implements MainView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        presenter = new BasicMainPresenter(this);
         chart = findViewById(R.id.chart);
         findViewById(R.id.button).setOnClickListener(v -> startDetailsView());
         findViewById(R.id.ibAdd).setOnClickListener(v -> startSearchView());
+        presenter = new BasicMainPresenter(this);
     }
 
     @Override

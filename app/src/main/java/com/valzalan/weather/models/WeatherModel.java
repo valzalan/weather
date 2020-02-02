@@ -12,21 +12,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WeatherModel {
-    private String locationName;
-    private String summary;
-    private WeatherType weatherType;
-    private int temp;
-    private int tempMax;
-    private int tempMin;
-    private int[] tempNextSixHours;
-    private int apparentTemp;
-    private int windSpeed;
-    private int humidity;
-    private double pressure;
-    private double visibility;
-    private int dewPoint;
-    private int[] precipitationForecast;
-    private List<ForecastModel> nextSevenDaysForecast;
+    private String locationName = "";
+    private String summary = "";
+    private WeatherType weatherType = WeatherType.CLEAR_DAY;
+    private int temp = 0;
+    private int tempMax = 0;
+    private int tempMin = 0;
+    private int[] tempNextSixHours = new int[6];
+    private int apparentTemp = 0;
+    private int windSpeed = 0;
+    private int humidity = 0;
+    private double pressure = 0;
+    private double visibility = 0;
+    private int dewPoint = 0;
+    private int[] precipitationForecast = new int[6];
+    private List<ForecastModel> nextSevenDaysForecast = new ArrayList<>();
+
+    public WeatherModel(){}
 
     public WeatherModel(ForecastResponse response){
         CurrentWeatherData current = response.getCurrentWeather();

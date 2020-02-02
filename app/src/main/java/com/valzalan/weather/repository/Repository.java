@@ -31,6 +31,7 @@ public class Repository implements Subject, Callback<ForecastResponse>{
     private final double BUD_LONG = 19.0402;
 
     private Repository() {
+        weatherModel = new WeatherModel();
         getWeather(BUD_LAT, BUD_LONG);
     }
 
@@ -42,6 +43,10 @@ public class Repository implements Subject, Callback<ForecastResponse>{
         GetForecastEndpoint endpoint = RetrofitClient.getRetrofitInstance().create(GetForecastEndpoint.class);
         Call<ForecastResponse> call = endpoint.getForecast(API_KEY, lat, lon);
         call.enqueue(this);
+    }
+
+    public WeatherModel getWeatherModel(){
+        return this.weatherModel;
     }
 
     @Override

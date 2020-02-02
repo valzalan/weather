@@ -8,10 +8,11 @@ public class BasicDetailsPresenter implements DetailsPresenter, RepositoryObserv
     private DetailsView view;
     private Repository repository;
 
-    public BasicDetailsPresenter(DetailsView view) {
+    BasicDetailsPresenter(DetailsView view) {
         this.view = view;
         repository = Repository.getInstance();
         repository.registerObserver(this);
+        view.update(repository.getWeatherModel());
     }
 
     @Override

@@ -12,6 +12,7 @@ public class BasicMainPresenter implements MainPresenter, RepositoryObserver {
         this.view = view;
         repository = Repository.getInstance();
         repository.registerObserver(this);
+        view.update(repository.getWeatherModel());
     }
 
     @Override
