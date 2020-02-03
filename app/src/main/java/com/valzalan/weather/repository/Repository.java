@@ -6,55 +6,81 @@ import androidx.annotation.NonNull;
 
 import com.valzalan.weather.api.endpoints.GetForecastEndpoint;
 import com.valzalan.weather.api.network.RetrofitClient;
-import com.valzalan.weather.api.responses.CurrentWeatherData;
-import com.valzalan.weather.api.responses.DailyWeather;
-import com.valzalan.weather.api.responses.DailyWeatherData;
 import com.valzalan.weather.api.responses.ForecastResponse;
-import com.valzalan.weather.api.responses.HourlyWeatherData;
-import com.valzalan.weather.enums.DayOfWeek;
-import com.valzalan.weather.enums.WeatherType;
-import com.valzalan.weather.models.ForecastModel;
-import com.valzalan.weather.models.LocationModel;
+import com.valzalan.weather.models.WeatherModel;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Repository {
+public class Repository implements Subject, Callback<ForecastResponse>{
     private static final String TAG = "Repository";
-    private Repository instance = new Repository();
-    private LocationModel location;
+    private static Repository instance = new Repository();
+    private ArrayList<RepositoryObserver> observers = new ArrayList<>();
+    private WeatherModel weatherModel;
     private Date time;
 
+    @SuppressWarnings("FieldCanBeLocal")
     private final String API_KEY = "48f93f8337d0b5b9dcb351c452a7fc38";
+    @SuppressWarnings("FieldCanBeLocal")
     private final double BUD_LAT = 47.4979;
+    @SuppressWarnings("FieldCanBeLocal")
     private final double BUD_LONG = 19.0402;
 
     private Repository() {
-        GetForecastEndpoint endpoint = RetrofitClient.getRetrofitInstance().create(GetForecastEndpoint.class);
-        Call<ForecastResponse> call = endpoint.getForecast(API_KEY, BUD_LAT, BUD_LONG);
-        call.enqueue(new Callback<ForecastResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<ForecastResponse> call, @NonNull Response<ForecastResponse> response) {
-                Log.d(TAG, "Success");
-
-                Log.d(TAG, response.body().getTimezone());
-                Log.d(TAG, response.body().getDailyWeather().getSummary());
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<ForecastResponse> call, @NonNull Throwable t) {
-                Log.e(TAG, "Error");
-                Log.e(TAG, t.getMessage());
-            }
-        });
+        weatherModel = new WeatherModel();
+        getWeather(BUD_LAT, BUD_LONG);
     }
 
-    public Repository getInstance(){
+    public static Repository getInstance(){
         return instance;
+    }
+
+    private void getWeather(double lat, double lon){
+        GetForecastEndpoint endpoint = RetrofitClient.getRetrofitInstance().create(GetForecastEndpoint.class);
+        Call<ForecastResponse> call = endpoint.getForecast(API_KEY, lat, lon);
+        call.enqueue(this);
+    }
+
+    public WeatherModel getWeatherModel(){
+        return this.weatherModel;
+    }
+
+    @Override
+    public void registerObserver(RepositoryObserver repositoryObserver) {
+        if(!observers.contains(repositoryObserver)) {
+            observers.add(repositoryObserver);
+        }
+    }
+
+    @Override
+    public void removeObserver(RepositoryObserver repositoryObserver) {
+        observers.remove(repositoryObserver);
+    }
+
+    @Override
+    public void notifyObservers() {
+        for (RepositoryObserver observer: observers) {
+            observer.onWeatherDataChanged(weatherModel);
+        }
+    }
+
+    @Override
+    public void onResponse(@NonNull Call<ForecastResponse> call, Response<ForecastResponse> response) {
+        Log.d(TAG, "Success");
+        if(response.body() != null){
+            weatherModel = new WeatherModel(response.body());
+            notifyObservers();
+        }
+    }
+
+    @SuppressWarnings("ConstantConditions")
+    @Override
+    public void onFailure(@NonNull Call<ForecastResponse> call, Throwable t) {
+        Log.e(TAG, "Error");
+        Log.e(TAG, t.getMessage());
     }
 }

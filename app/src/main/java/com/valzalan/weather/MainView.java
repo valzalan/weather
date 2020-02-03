@@ -1,7 +1,9 @@
 package com.valzalan.weather;
 
-public interface MainView {
-    void startSearchView();
+import com.valzalan.weather.models.WeatherModel;
 
+public interface MainView {
+    void update(WeatherModel model);
+    void startSearchView();
     void startDetailsView();
 }
