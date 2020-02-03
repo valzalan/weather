@@ -1,4 +1,4 @@
-package com.valzalan.weather.search;
+package com.valzalan.weather.views.search;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;

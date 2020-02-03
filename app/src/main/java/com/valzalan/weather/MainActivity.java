@@ -4,18 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 
-import com.valzalan.weather.api.endpoints.GetForecastEndpoint;
-import com.valzalan.weather.api.network.RetrofitClient;
-import com.valzalan.weather.api.responses.ForecastResponse;
-import com.valzalan.weather.details.DetailsActivity;
-import com.valzalan.weather.search.SearchActivity;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import com.valzalan.weather.views.details.DetailsActivity;
+import com.valzalan.weather.views.search.SearchActivity;
 
 public class MainActivity extends AppCompatActivity implements MainView {
     private static final String TAG = "MainActivity";

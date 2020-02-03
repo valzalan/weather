@@ -1,4 +1,4 @@
-package com.valzalan.weather.details;
+package com.valzalan.weather.views.details;
 
 import android.os.Bundle;
 
