@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import com.valzalan.weather.api.endpoints.GetForecastEndpoint;
 import com.valzalan.weather.api.network.RetrofitClient;
 import com.valzalan.weather.api.responses.ForecastResponse;
+import com.valzalan.weather.enums.TemperatureUnit;
 import com.valzalan.weather.models.WeatherModel;
 
 import java.util.ArrayList;
@@ -16,11 +17,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.valzalan.weather.enums.TemperatureUnit.CELSIUS;
+import static com.valzalan.weather.enums.TemperatureUnit.FAHRENHEIT;
+
 public class Repository implements Subject, Callback<ForecastResponse>{
     private static final String TAG = "Repository";
     private static Repository instance = new Repository();
     private ArrayList<RepositoryObserver> observers = new ArrayList<>();
     private WeatherModel weatherModel;
+    private TemperatureUnit activeTempUnit = CELSIUS;
+    private TemperatureUnit APITempUnit = FAHRENHEIT;
     private Date time;
 
     @SuppressWarnings("FieldCanBeLocal")
@@ -82,5 +88,17 @@ public class Repository implements Subject, Callback<ForecastResponse>{
     public void onFailure(@NonNull Call<ForecastResponse> call, Throwable t) {
         Log.e(TAG, "Error");
         Log.e(TAG, t.getMessage());
+    }
+
+    public TemperatureUnit getActiveTempUnit() {
+        return activeTempUnit;
+    }
+
+    public void setActiveTempUnit(TemperatureUnit activeTempUnit) {
+        this.activeTempUnit = activeTempUnit;
+    }
+
+    public TemperatureUnit getAPITempUnit() {
+        return APITempUnit;
     }
 }

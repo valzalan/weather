@@ -1,7 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#008577</color>
-    <color name="primaryDark">#00574B</color>
+    <color name="primary">@color/clearDayGradientEnd</color>
+    <color name="primaryDark">@color/clearDayGradientStart</color>
     <color name="accent">#D81B60</color>
     <color name="primaryText">#FFFFFF</color>
+
+    <color name="clearDayGradientStart">#51A4DB</color>
+    <color name="clearDayGradientEnd">#73BAE1</color>
+    <color name="clearNightGradientStart">#112158</color>
+    <color name="clearNightGradientEnd">#9662A2</color>
+    <color name="fogGradientStart">#BC8DB8</color>
+    <color name="fogGradientEnd">#5E5E90</color>
+    <color name="cloudyGradientStart">#5393B2</color>
+    <color name="cloudyGradientEnd">#A7BDCA</color>
+    <color name="sleetGradientStart">#777B86</color>
+    <color name="sleetGradientEnd">#ADB7BE</color>
+    <color name="stormGradientStart">#3F65A4</color>
+    <color name="stormGradientEnd">#D0AEA7</color>
+    <color name="hotGradientStart">#820F63</color>
+    <color name="hotGradientEnd">#FA5039</color>
+    <color name="sandStormGradientStart">#B17139</color>
+    <color name="sandStormGradientEnd">#DBA660</color>
+    <color name="tornadoGradientStart">#34323A</color>
+    <color name="tornadoGradientEnd">#B3947E</color>
 </resources>

@@ -7,6 +7,7 @@ import com.valzalan.weather.api.responses.ForecastResponse;
 import com.valzalan.weather.api.responses.HourlyWeatherData;
 import com.valzalan.weather.enums.DayOfWeek;
 import com.valzalan.weather.enums.WeatherType;
+import com.valzalan.weather.utilities.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +39,11 @@ public class WeatherModel {
         this.locationName = zone.substring(zone.indexOf('/') + 1).replace('_', ' ');
         this.summary = current.getSummary();
         this.weatherType = WeatherType.fromValue(current.getIcon());
-        this.temp = (int) current.getTemperature();
-        this.tempMax = (int) daily.getData().get(0).getTemperatureMax();
-        this.tempMin = (int) daily.getData().get(0).getTemperatureMin();
+        this.temp = Util.getTempInActiveUnit((int) current.getTemperature());
+        this.tempMax = Util.getTempInActiveUnit((int) daily.getData().get(0).getTemperatureMax());
+        this.tempMin = Util.getTempInActiveUnit((int) daily.getData().get(0).getTemperatureMin());
         this.tempNextSixHours = createTemperatureForecast(response.getHourlyWeatherData().getData());
-        this.apparentTemp = (int) current.getApparentTemperature();
+        this.apparentTemp = Util.getTempInActiveUnit((int) current.getApparentTemperature());
         this.windSpeed = (int) current.getWindSpeed();
         this.humidity = (int) current.getHumidity() * 100;
         this.pressure = current.getPressure();
@@ -63,7 +64,7 @@ public class WeatherModel {
     private int[] createTemperatureForecast(List<HourlyWeatherData> list){
         int[] result = new int[6];
         for(int i = 0; i < result.length; i++){
-            result[i] = (int) list.get(i).getTemperature();
+            result[i] = Util.getTempInActiveUnit((int) list.get(i).getTemperature());
         }
         return result;
     }
@@ -81,8 +82,8 @@ public class WeatherModel {
                 DayOfWeek.MONDAY,
                 (int) data.getPrecipProbability() * 100,
                 WeatherType.fromValue(data.getIcon()),
-                (int) data.getTemperatureMax(),
-                (int) data.getTemperatureMin()
+                Util.getTempInActiveUnit((int) data.getTemperatureMax()),
+                Util.getTempInActiveUnit((int) data.getTemperatureMin())
         );
     }
 
