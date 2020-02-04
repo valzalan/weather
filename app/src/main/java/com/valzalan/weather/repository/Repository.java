@@ -7,6 +7,9 @@ import androidx.annotation.NonNull;
 import com.valzalan.weather.api.endpoints.GetForecastEndpoint;
 import com.valzalan.weather.api.network.RetrofitClient;
 import com.valzalan.weather.api.responses.ForecastResponse;
+import com.valzalan.weather.enums.DistanceUnit;
+import com.valzalan.weather.enums.PressureUnit;
+import com.valzalan.weather.enums.SpeedUnit;
 import com.valzalan.weather.enums.TemperatureUnit;
 import com.valzalan.weather.models.WeatherModel;
 
@@ -17,6 +20,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.valzalan.weather.enums.DistanceUnit.KILOMETERS;
+import static com.valzalan.weather.enums.DistanceUnit.MILES;
+import static com.valzalan.weather.enums.PressureUnit.HECTOPASCALS;
+import static com.valzalan.weather.enums.PressureUnit.MILLIBARS;
+import static com.valzalan.weather.enums.SpeedUnit.KILOMETERS_PER_HOUR;
+import static com.valzalan.weather.enums.SpeedUnit.MILES_PER_HOUR;
 import static com.valzalan.weather.enums.TemperatureUnit.CELSIUS;
 import static com.valzalan.weather.enums.TemperatureUnit.FAHRENHEIT;
 
@@ -27,6 +36,13 @@ public class Repository implements Subject, Callback<ForecastResponse>{
     private WeatherModel weatherModel;
     private TemperatureUnit activeTempUnit = CELSIUS;
     private TemperatureUnit APITempUnit = FAHRENHEIT;
+    private SpeedUnit activeSpeedUnit = KILOMETERS_PER_HOUR;
+    private SpeedUnit APISpeedUnit = MILES_PER_HOUR;
+    private PressureUnit activePressureUnit = HECTOPASCALS;
+    private PressureUnit APIPressureUnit = MILLIBARS;
+    private DistanceUnit activeDistanceUnit = KILOMETERS;
+    private DistanceUnit APIDistanceUnit = MILES;
+
     private Date time;
 
     @SuppressWarnings("FieldCanBeLocal")
@@ -94,11 +110,47 @@ public class Repository implements Subject, Callback<ForecastResponse>{
         return activeTempUnit;
     }
 
-    public void setActiveTempUnit(TemperatureUnit activeTempUnit) {
-        this.activeTempUnit = activeTempUnit;
+    public void setActiveTempUnit(TemperatureUnit tempUnit) {
+        this.activeTempUnit = tempUnit;
     }
 
     public TemperatureUnit getAPITempUnit() {
         return APITempUnit;
+    }
+
+    public SpeedUnit getActiveSpeedUnit() {
+        return activeSpeedUnit;
+    }
+
+    public void setActiveSpeedUnit(SpeedUnit speedUnit) {
+        this.activeSpeedUnit = speedUnit;
+    }
+
+    public SpeedUnit getAPISpeedUnit() {
+        return APISpeedUnit;
+    }
+
+    public PressureUnit getActivePressureUnit() {
+        return activePressureUnit;
+    }
+
+    public void setActivePressureUnit(PressureUnit activePressureUnit) {
+        this.activePressureUnit = activePressureUnit;
+    }
+
+    public PressureUnit getAPIPressureUnit() {
+        return APIPressureUnit;
+    }
+
+    public DistanceUnit getActiveDistanceUnit() {
+        return activeDistanceUnit;
+    }
+
+    public void setActiveDistanceUnit(DistanceUnit activeDistanceUnit) {
+        this.activeDistanceUnit = activeDistanceUnit;
+    }
+
+    public DistanceUnit getAPIDistanceUnit() {
+        return APIDistanceUnit;
     }
 }

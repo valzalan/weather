@@ -1,4 +1,4 @@
-package com.valzalan.weather;
+package com.valzalan.weather.views.main;
 
 import com.valzalan.weather.models.WeatherModel;
 

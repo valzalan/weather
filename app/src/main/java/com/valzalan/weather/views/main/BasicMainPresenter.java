@@ -1,4 +1,4 @@
-package com.valzalan.weather;
+package com.valzalan.weather.views.main;
 
 import com.valzalan.weather.models.WeatherModel;
 import com.valzalan.weather.repository.Repository;
@@ -12,7 +12,6 @@ public class BasicMainPresenter implements MainPresenter, RepositoryObserver {
         this.view = view;
         repository = Repository.getInstance();
         repository.registerObserver(this);
-        view.update(repository.getWeatherModel());
     }
 
     @Override

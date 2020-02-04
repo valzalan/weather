@@ -8,43 +8,87 @@ import android.view.View;
 import androidx.core.content.ContextCompat;
 
 import com.valzalan.weather.R;
+import com.valzalan.weather.enums.DistanceUnit;
+import com.valzalan.weather.enums.PressureUnit;
+import com.valzalan.weather.enums.SpeedUnit;
 import com.valzalan.weather.enums.TemperatureUnit;
 import com.valzalan.weather.enums.WeatherType;
 import com.valzalan.weather.repository.Repository;
 
+import static com.valzalan.weather.enums.SpeedUnit.KILOMETERS_PER_HOUR;
+import static com.valzalan.weather.enums.SpeedUnit.MILES_PER_HOUR;
+import static com.valzalan.weather.enums.TemperatureUnit.CELSIUS;
+import static com.valzalan.weather.enums.TemperatureUnit.FAHRENHEIT;
+
 public class Util {
     private static final String TAG = "Util";
+
+    public static String formatTempString(int temp){
+        TemperatureUnit unit = Repository.getInstance().getActiveTempUnit();
+        return unit.equals(CELSIUS) ? temp + "°C" : temp + "°F";
+    }
+
+    public static String formatSpeedString(int speed){
+        SpeedUnit unit = Repository.getInstance().getActiveSpeedUnit();
+        return unit.equals(KILOMETERS_PER_HOUR) ? speed + " km/h" : speed + " miles/h";
+    }
+
+    public static String formatDistanceString(double distance){
+        DistanceUnit unit = Repository.getInstance().getActiveDistanceUnit();
+        switch (unit){
+            case KILOMETERS:
+                return distance + "km";
+            case MILES:
+                return distance + " miles";
+            case FEET:
+                return distance + "ft";
+            case METERS:
+                return distance + "m";
+            default:
+                Log.e(TAG, "Unknown distance unit. Returning value as string");
+                return String.valueOf(distance);
+        }
+    }
+
+    // The relation between mBar and hPa is 1 : 1 . No need to convert.
+    public static String formatPressureString(double pressure){
+        PressureUnit unit = Repository.getInstance().getActivePressureUnit();
+        switch (unit) {
+            case MILLIBARS:
+                return pressure + " mBar";
+            case HECTOPASCALS:
+                return pressure + " hPa";
+            default:
+                Log.e(TAG, "Unknown pressure unit. No formatting performed.");
+                return String.valueOf(pressure);
+        }
+    }
 
     public static int getTempInActiveUnit(int temp){
         TemperatureUnit apiTempUnit = Repository.getInstance().getAPITempUnit();
         switch (Repository.getInstance().getActiveTempUnit()){
             case CELSIUS:
-                if(apiTempUnit.equals(TemperatureUnit.CELSIUS)) {
-                    return temp;
-                } else if(apiTempUnit.equals(TemperatureUnit.FAHRENHEIT)) {
-                    return (temp - 32) * 5 / 9;
-                }
+                return apiTempUnit.equals(CELSIUS) ? temp : (temp - 32) * 5 / 9;
             case FAHRENHEIT:
-                if(apiTempUnit.equals(TemperatureUnit.FAHRENHEIT)){
-                    return temp;
-                } else if(apiTempUnit.equals(TemperatureUnit.CELSIUS)){
-                    return temp * 5 / 9 + 32;
-                }
+                return apiTempUnit.equals(FAHRENHEIT) ? temp : temp * 5 / 9 + 32;
             default:
                 Log.e(TAG, "Unknown temperature unit. Returning same value");
                 return temp;
         }
     }
 
-    public static void hideSystemUI(Activity activity) {
-        View decorView = activity.getWindow().getDecorView();
-        decorView.setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_IMMERSIVE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
+    public static int getSpeedInActiveUnit(int speed) {
+        SpeedUnit apiDistanceUnit = Repository.getInstance().getAPISpeedUnit();
+        switch (Repository.getInstance().getActiveSpeedUnit()){
+            case KILOMETERS_PER_HOUR:
+                return apiDistanceUnit.equals(KILOMETERS_PER_HOUR) ? speed : (int) (speed / 1.609);
+            case MILES_PER_HOUR:
+                return apiDistanceUnit.equals(MILES_PER_HOUR) ? speed : (int) (speed * 1.609);
+            default:
+                Log.e(TAG, "Unknown speed unit. Returning same value");
+                return speed;
+        }
+
     }
 
     public static Gradient getGradient(Context ctx, WeatherType weatherType){

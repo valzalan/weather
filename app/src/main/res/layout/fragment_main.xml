@@ -1,6 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainContainer"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/ivWeather"
+        android:layout_width="52dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toTopOf="@+id/tvTempCurrent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/ic_sun"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/tvWeather"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:freezesText="true"
+        android:text="Clear"
+        android:textColor="@color/primaryText"
+        android:textSize="36sp"
+        app:fontFamily="sans-serif-light"
+        app:layout_constraintBottom_toBottomOf="@+id/ivWeather"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ivWeather"
+        app:layout_constraintTop_toTopOf="@+id/ivWeather"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/tvTempCurrent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/pageMargin"
+        android:layout_marginLeft="@dimen/pageMargin"
+        android:includeFontPadding="false"
+        android:singleLine="true"
+        android:text="28°"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display4"
+        android:textColor="@color/primaryText"
+        android:textSize="128sp"
+        app:fontFamily="sans-serif-thin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.4"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/tvTempMax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/pageMargin"
+        android:layout_marginRight="@dimen/pageMargin"
+        android:layout_marginBottom="8dp"
+        android:text="35 °C"
+        android:textColor="@color/primaryText"
+        android:textSize="24sp"
+        app:fontFamily="sans-serif-light"
+        app:layout_constraintBottom_toTopOf="@id/ivDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvTempCurrent"
+        app:layout_constraintTop_toTopOf="@+id/tvTempCurrent"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:ignore="HardcodedText" />
+
+    <ImageView
+        android:id="@+id/ivDivider"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@+id/tvTempMin"
+        app:layout_constraintEnd_toEndOf="@+id/tvTempMax"
+        app:layout_constraintStart_toStartOf="@+id/tvTempMax"
+        app:layout_constraintTop_toBottomOf="@+id/tvTempMax"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:srcCompat="@color/primaryText"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/tvTempMin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="@dimen/pageMargin"
+        android:layout_marginRight="@dimen/pageMargin"
+        android:text="12 °C"
+        android:textColor="@color/primaryText"
+        android:textSize="24sp"
+        app:fontFamily="sans-serif-light"
+        app:layout_constraintBottom_toBottomOf="@+id/tvTempCurrent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvTempCurrent"
+        app:layout_constraintTop_toBottomOf="@id/ivDivider"
+        app:layout_constraintVertical_chainStyle="packed"
+        tools:ignore="HardcodedText" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chart"
+        android:layout_width="0dp"
+        android:layout_height="230dp"
+        android:layout_marginStart="@dimen/pageMargin"
+        android:layout_marginLeft="@dimen/pageMargin"
+        android:layout_marginEnd="@dimen/pageMargin"
+        android:layout_marginRight="@dimen/pageMargin"
+        android:layout_marginBottom="@dimen/pageMargin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -39,11 +39,11 @@ public class WeatherModel {
         this.locationName = zone.substring(zone.indexOf('/') + 1).replace('_', ' ');
         this.summary = current.getSummary();
         this.weatherType = WeatherType.fromValue(current.getIcon());
-        this.temp = Util.getTempInActiveUnit((int) current.getTemperature());
-        this.tempMax = Util.getTempInActiveUnit((int) daily.getData().get(0).getTemperatureMax());
-        this.tempMin = Util.getTempInActiveUnit((int) daily.getData().get(0).getTemperatureMin());
+        this.temp = (int) current.getTemperature();
+        this.tempMax = (int) daily.getData().get(0).getTemperatureMax();
+        this.tempMin = (int) daily.getData().get(0).getTemperatureMin();
         this.tempNextSixHours = createTemperatureForecast(response.getHourlyWeatherData().getData());
-        this.apparentTemp = Util.getTempInActiveUnit((int) current.getApparentTemperature());
+        this.apparentTemp = (int) current.getApparentTemperature();
         this.windSpeed = (int) current.getWindSpeed();
         this.humidity = (int) current.getHumidity() * 100;
         this.pressure = current.getPressure();
@@ -82,8 +82,8 @@ public class WeatherModel {
                 DayOfWeek.MONDAY,
                 (int) data.getPrecipProbability() * 100,
                 WeatherType.fromValue(data.getIcon()),
-                Util.getTempInActiveUnit((int) data.getTemperatureMax()),
-                Util.getTempInActiveUnit((int) data.getTemperatureMin())
+                (int) data.getTemperatureMax(),
+                (int) data.getTemperatureMin()
         );
     }
 
@@ -100,15 +100,15 @@ public class WeatherModel {
     }
 
     public int getTemp() {
-        return temp;
+        return Util.getTempInActiveUnit(temp);
     }
 
     public int getTempMax() {
-        return tempMax;
+        return Util.getTempInActiveUnit(tempMax);
     }
 
     public int getTempMin() {
-        return tempMin;
+        return Util.getTempInActiveUnit(tempMin);
     }
 
     public int[] getTempNextSixHours() {
@@ -116,11 +116,11 @@ public class WeatherModel {
     }
 
     public int getApparentTemp() {
-        return apparentTemp;
+        return Util.getTempInActiveUnit(apparentTemp);
     }
 
     public int getWindSpeed() {
-        return windSpeed;
+        return Util.getSpeedInActiveUnit(windSpeed);
     }
 
     public int getHumidity() {
@@ -136,7 +136,7 @@ public class WeatherModel {
     }
 
     public int getDewPoint() {
-        return dewPoint;
+        return Util.getTempInActiveUnit(dewPoint);
     }
 
     public int[] getPrecipitationForecast() {

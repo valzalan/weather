@@ -12,7 +12,6 @@ public class BasicDetailsPresenter implements DetailsPresenter, RepositoryObserv
         this.view = view;
         repository = Repository.getInstance();
         repository.registerObserver(this);
-        view.update(repository.getWeatherModel());
     }
 
     @Override

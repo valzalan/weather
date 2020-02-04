@@ -1,10 +1,13 @@
 package com.valzalan.weather.views.details;
 
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,7 +17,6 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.valzalan.weather.R;
 import com.valzalan.weather.components.DetailsItemView;
-import com.valzalan.weather.enums.WeatherType;
 import com.valzalan.weather.models.ForecastModel;
 import com.valzalan.weather.models.WeatherModel;
 import com.valzalan.weather.utilities.Util;
@@ -22,69 +24,54 @@ import com.valzalan.weather.utilities.Util;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetailsActivity extends AppCompatActivity implements DetailsView {
+public class DetailsFragment extends Fragment implements DetailsView {
     private DetailsPresenter presenter;
     private LineChart chart;
     private RecyclerView forecast;
 
+    @Nullable
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_details);
-        chart = findViewById(R.id.chart);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_details, container, false);
+        chart = v.findViewById(R.id.chart);
         setupChart();
-        initForecastView();
+        forecast = v.findViewById(R.id.rvForecast);
+        forecast.setLayoutManager(
+                new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false)
+        );
         presenter = new BasicDetailsPresenter(this);
+        return v;
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         presenter.viewPaused();
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
-        Util.hideSystemUI(this);
         presenter.viewResumed();
-    }
-
-    private void initForecastView(){
-        forecast = findViewById(R.id.rvForecast);
-        forecast.setLayoutManager(
-                new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
-        );
     }
 
     @Override
     public void update(WeatherModel model) {
-        setBackgroundGradient(model.getWeatherType());
+        View v = getView();
         updateChart(model.getPrecipitationForecast());
         updateForecast(model.getNextSevenDaysForecast());
-        ((DetailsItemView) findViewById(R.id.diFeelsLike))
+        ((DetailsItemView) v.findViewById(R.id.diFeelsLike))
                 .setValue(model.getApparentTemp() + "°");
-        ((DetailsItemView) findViewById(R.id.diHumidity))
+        ((DetailsItemView) v.findViewById(R.id.diHumidity))
                 .setValue(model.getHumidity() + "%");
-        ((DetailsItemView) findViewById(R.id.diPressure))
+        ((DetailsItemView) v.findViewById(R.id.diPressure))
                 .setValue(Util.formatPressureString(model.getPressure()));
-        ((DetailsItemView) findViewById(R.id.diDewPoint))
+        ((DetailsItemView) v.findViewById(R.id.diDewPoint))
                 .setValue(model.getDewPoint() + "°");
-        ((DetailsItemView) findViewById(R.id.diVisibility))
+        ((DetailsItemView) v.findViewById(R.id.diVisibility))
                 .setValue(Util.formatDistanceString(model.getVisibility()));
-        ((DetailsItemView) findViewById(R.id.diWind))
+        ((DetailsItemView) v.findViewById(R.id.diWind))
                 .setValue(Util.formatSpeedString(model.getWindSpeed()));
-    }
-
-    private void setBackgroundGradient(WeatherType weatherType) {
-        Util.Gradient gradient = Util.getGradient(this, weatherType);
-
-        GradientDrawable drawable = new GradientDrawable(
-                GradientDrawable.Orientation.TOP_BOTTOM,
-                new int[] {gradient.start, gradient.end}
-        );
-
-        findViewById(R.id.mainContainer).setBackground(drawable);
     }
 
     private void updateForecast(List<ForecastModel> dataList){

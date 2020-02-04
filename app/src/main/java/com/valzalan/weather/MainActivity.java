@@ -1,75 +1,69 @@
 package com.valzalan.weather;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-
-import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.components.AxisBase;
-import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.LineData;
-import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.ValueFormatter;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.material.navigation.NavigationView;
 import com.valzalan.weather.enums.WeatherType;
 import com.valzalan.weather.models.WeatherModel;
+import com.valzalan.weather.repository.Repository;
+import com.valzalan.weather.repository.RepositoryObserver;
 import com.valzalan.weather.utilities.Util;
-import com.valzalan.weather.views.details.DetailsActivity;
-import com.valzalan.weather.views.search.SearchActivity;
+import com.valzalan.weather.views.details.DetailsFragment;
+import com.valzalan.weather.views.main.MainFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements MainView {
-    private MainPresenter presenter;
-    private LineChart chart;
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RepositoryObserver {
+    private static final String TAG = "MainActivity";
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        chart = findViewById(R.id.chart);
-        setupChart();
-        findViewById(R.id.button).setOnClickListener(v -> startDetailsView());
+        findViewById(R.id.ibMenu).setOnClickListener(v -> openDrawer());
         findViewById(R.id.ibAdd).setOnClickListener(v -> startSearchView());
-        presenter = new BasicMainPresenter(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        presenter.viewPaused();
+        ((NavigationView) findViewById(R.id.nav_view)).setNavigationItemSelectedListener(this);
+        ViewPager pager = findViewById(R.id.pager);
+        WeatherPagerAdapter pagerAdapter = new WeatherPagerAdapter(getSupportFragmentManager());
+        pager.setAdapter(pagerAdapter);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Util.hideSystemUI(this);
-        presenter.viewResumed();
+        Repository.getInstance().registerObserver(this);
+        hideSystemUI();
     }
 
     @Override
-    public void update(WeatherModel model) {
-        setBackgroundGradient(model.getWeatherType());
-        updateChart(model.getTempNextSixHours());
-        ((TextView) findViewById(R.id.tvLocationName))
-                .setText(model.getLocationName());
-        ((TextView) findViewById(R.id.tvWeather))
-                .setText(model.getSummary());
-        ((TextView) findViewById(R.id.tvTempCurrent))
-                .setText(String.valueOf(model.getTemp()));
-        ((TextView) findViewById(R.id.tvTempMax))
-                .setText(String.valueOf(model.getTempMax()));
-        ((TextView) findViewById(R.id.tvTempMin))
-                .setText(String.valueOf(model.getTempMin()));
+    protected void onPause() {
+        super.onPause();
+        Repository.getInstance().removeObserver(this);
+    }
+
+    private void openDrawer(){
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer.openDrawer(GravityCompat.START);
+    }
+
+    private void startSearchView(){
+
     }
 
     private void setBackgroundGradient(WeatherType weatherType) {
@@ -78,66 +72,60 @@ public class MainActivity extends AppCompatActivity implements MainView {
         GradientDrawable drawable = new GradientDrawable(
                 GradientDrawable.Orientation.TOP_BOTTOM,
                 new int[] {gradient.start, gradient.end}
-                );
+        );
 
-        findViewById(R.id.mainContainer).setBackground(drawable);
+        findViewById(R.id.drawer_layout).setBackground(drawable);
     }
 
-    private void setupChart(){
-        chart.getAxisLeft().setDrawGridLines(false);
-        chart.getAxisLeft().setDrawLabels(false);
-        chart.setDrawGridBackground(false);
-        chart.setDrawBorders(false);
-        chart.setDrawMarkers(false);
-        chart.setTouchEnabled(false);
-        chart.getLegend().setEnabled(false);
-        chart.getDescription().setEnabled(false);
-
-        XAxis xAxis = chart.getXAxis();
-        YAxis yAxis = chart.getAxisLeft();
-        //yAxis.setAxisMaximum(20f);
-        //yAxis.setAxisMinimum(0f);
-        xAxis.setGranularity(1f);
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE);
-        xAxis.setDrawAxisLine(false);
-        xAxis.setTextSize(15f);
-        xAxis.setTextColor(Color.WHITE);
-        xAxis.setGridLineWidth(1f);
-        xAxis.setGridColor(Color.WHITE);
-        xAxis.setValueFormatter(getXAxisValueFormatter());
-    }
-
-    private ValueFormatter getXAxisValueFormatter(){
-        final String[] quarters = new String[] { "NOW", "2pm", "3pm", "4pm", "5pm", "6pm" };
-        return new ValueFormatter() {
-            @Override
-            public String getAxisLabel(float value, AxisBase axis) {
-                return quarters[(int) value];
-            }
-        };
-    }
-
-    private void updateChart(int[] tempForecast){
-        List<Entry> entries = new ArrayList<>();
-        for (int i = 0; i < tempForecast.length; i++) {
-            entries.add(new Entry(i, tempForecast[i]));
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        switch(menuItem.getItemId()) {
+            case R.id.notifications:
+                Log.d(TAG, "Notifications menu clicked!");
+            case R.id.settings:
+                Log.d(TAG, "Settings menu clicked!");
+            case R.id.about:
+                Log.d(TAG, "About menu clicked!");
+            default:
+                return true;
         }
-        LineDataSet dataSet = new LineDataSet(entries, "");
-        dataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
-        dataSet.setColor(Color.WHITE);
-        dataSet.setValueTextSize(13f);
-        dataSet.setValueTextColor(Color.WHITE);
-        chart.setData(new LineData(dataSet));
-        chart.invalidate();
     }
 
     @Override
-    public void startSearchView(){
-        startActivity(new Intent(this, SearchActivity.class));
+    public void onWeatherDataChanged(WeatherModel model) {
+        setBackgroundGradient(model.getWeatherType());
+        ((TextView) findViewById(R.id.tvLocationName)).setText(model.getLocationName());
     }
 
-    @Override
-    public void startDetailsView(){
-        startActivity(new Intent(this, DetailsActivity.class));
+    public void hideSystemUI() {
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_IMMERSIVE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
+    }
+
+    private class WeatherPagerAdapter extends FragmentStatePagerAdapter {
+        private List<Fragment> fragmentList = new ArrayList<>();
+
+        WeatherPagerAdapter(FragmentManager fm) {
+            super(fm);
+            fragmentList.add(new MainFragment());
+            fragmentList.add(new DetailsFragment());
+        }
+
+        @NonNull
+        @Override
+        public Fragment getItem(int position) {
+            return fragmentList.get(position);
+        }
+
+        @Override
+        public int getCount() {
+            return fragmentList.size();
+        }
     }
 }
