@@ -63,17 +63,17 @@ public class DetailsActivity extends AppCompatActivity implements DetailsView {
         updateChart(model.getPrecipitationForecast());
         updateForecast(model.getNextSevenDaysForecast());
         ((DetailsItemView) findViewById(R.id.diFeelsLike))
-                .setValue(String.valueOf(model.getApparentTemp()));
+                .setValue(model.getApparentTemp() + "°");
         ((DetailsItemView) findViewById(R.id.diHumidity))
-                .setValue(String.valueOf(model.getHumidity()));
+                .setValue(model.getHumidity() + "%");
         ((DetailsItemView) findViewById(R.id.diPressure))
-                .setValue(String.valueOf(model.getPressure()));
+                .setValue(Util.formatPressureString(model.getPressure()));
         ((DetailsItemView) findViewById(R.id.diDewPoint))
-                .setValue(String.valueOf(model.getDewPoint()));
+                .setValue(model.getDewPoint() + "°");
         ((DetailsItemView) findViewById(R.id.diVisibility))
-                .setValue(String.valueOf(model.getVisibility()));
+                .setValue(Util.formatDistanceString(model.getVisibility()));
         ((DetailsItemView) findViewById(R.id.diWind))
-                .setValue(String.valueOf(model.getWindSpeed()));
+                .setValue(Util.formatSpeedString(model.getWindSpeed()));
     }
 
     private void setBackgroundGradient(WeatherType weatherType) {
