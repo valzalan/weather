@@ -2,16 +2,16 @@ package com.valzalan.weather.views.main;
 
 import com.valzalan.weather.models.WeatherModel;
 import com.valzalan.weather.repository.Repository;
-import com.valzalan.weather.repository.RepositoryObserver;
+import com.valzalan.weather.repository.WeatherObserver;
 
-public class BasicMainPresenter implements MainPresenter, RepositoryObserver {
+public class BasicMainPresenter implements MainPresenter, WeatherObserver {
     private MainView view;
     private Repository repository;
 
     BasicMainPresenter(MainView view) {
         this.view = view;
         repository = Repository.getInstance();
-        repository.registerObserver(this);
+        repository.registerWeatherObserver(this);
     }
 
     @Override
@@ -21,11 +21,11 @@ public class BasicMainPresenter implements MainPresenter, RepositoryObserver {
 
     @Override
     public void viewPaused() {
-        repository.removeObserver(this);
+        repository.removeWeatherObserver(this);
     }
 
     @Override
     public void viewResumed() {
-        repository.registerObserver(this);
+        repository.registerWeatherObserver(this);
     }
 }

@@ -3,7 +3,6 @@ package com.valzalan.weather.views.main;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,14 +25,12 @@ import com.valzalan.weather.R;
 import com.valzalan.weather.enums.WeatherType;
 import com.valzalan.weather.models.WeatherModel;
 import com.valzalan.weather.utilities.Util;
-import com.valzalan.weather.views.details.DetailsFragment;
 import com.valzalan.weather.views.search.SearchActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MainFragment extends Fragment implements MainView {
-    private static final String TAG = "MainFragment";
     private MainPresenter presenter;
     private LineChart chart;
 
@@ -77,6 +74,7 @@ public class MainFragment extends Fragment implements MainView {
     }
 
     private void setIcon(WeatherType weatherType){
+        @SuppressWarnings("ConstantConditions")
         ImageView icon = getView().findViewById(R.id.ivWeather);
         icon.setImageResource(Util.getIconResForWeatherType(weatherType));
     }
@@ -103,11 +101,11 @@ public class MainFragment extends Fragment implements MainView {
     }
 
     private ValueFormatter getXAxisValueFormatter(){
-        final String[] quarters = new String[] { "NOW", "2pm", "3pm", "4pm", "5pm", "6pm" };
+        final String[] hours = new String[] { "NOW", "2pm", "3pm", "4pm", "5pm", "6pm" };
         return new ValueFormatter() {
             @Override
             public String getAxisLabel(float value, AxisBase axis) {
-                return quarters[(int) value];
+                return hours[(int) value];
             }
         };
     }
@@ -129,10 +127,5 @@ public class MainFragment extends Fragment implements MainView {
     @Override
     public void startSearchView(){
         startActivity(new Intent(getContext(), SearchActivity.class));
-    }
-
-    @Override
-    public void startDetailsView(){
-        startActivity(new Intent(getContext(), DetailsFragment.class));
     }
 }

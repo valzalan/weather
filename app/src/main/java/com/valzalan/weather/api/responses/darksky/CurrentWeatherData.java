@@ -1,18 +1,14 @@
-package com.valzalan.weather.api.responses;
+package com.valzalan.weather.api.responses.darksky;
 
 import com.google.gson.annotations.SerializedName;
 
-public class HourlyWeatherData {
-    @SerializedName("time")
-    private long time;
+public class CurrentWeatherData {
     @SerializedName("summary")
     private String summary;
     @SerializedName("icon")
     private String icon;
     @SerializedName("precipProbability")
     private double precipProbability;
-    @SerializedName("precipType")
-    private String precipType;
     @SerializedName("temperature")
     private double temperature;
     @SerializedName("apparentTemperature")
@@ -25,46 +21,22 @@ public class HourlyWeatherData {
     private double pressure;
     @SerializedName("windSpeed")
     private double windSpeed;
-    @SerializedName("windGust")
-    private double windGust;
-    @SerializedName("windBearing")
-    private double windBearing;
-    @SerializedName("cloudCover")
-    private double cloudCover;
-    @SerializedName("uvIndex")
-    private double uvIndex;
     @SerializedName("visibility")
     private double visibility;
-    @SerializedName("ozone")
-    private double ozone;
 
-    public HourlyWeatherData(long time, String summary, String icon, double precipProbability,
-                             String precipType, double temperature, double apparentTemperature,
-                             double dewPoint, double humidity, double pressure, double windSpeed,
-                             double windGust, double windBearing, double cloudCover, double uvIndex,
-                             double visibility, double ozone) {
-
-        this.time = time;
+    public CurrentWeatherData(String summary, String icon, double precipProbability,
+                              double temperature, double apparentTemperature, double dewPoint,
+                              double humidity, double pressure, double windSpeed, double visibility) {
         this.summary = summary;
         this.icon = icon;
         this.precipProbability = precipProbability;
-        this.precipType = precipType;
         this.temperature = temperature;
         this.apparentTemperature = apparentTemperature;
         this.dewPoint = dewPoint;
         this.humidity = humidity;
         this.pressure = pressure;
         this.windSpeed = windSpeed;
-        this.windGust = windGust;
-        this.windBearing = windBearing;
-        this.cloudCover = cloudCover;
-        this.uvIndex = uvIndex;
         this.visibility = visibility;
-        this.ozone = ozone;
-    }
-
-    public long getTime() {
-        return time;
     }
 
     public String getSummary() {
@@ -77,10 +49,6 @@ public class HourlyWeatherData {
 
     public double getPrecipProbability() {
         return precipProbability;
-    }
-
-    public String getPrecipType() {
-        return precipType;
     }
 
     public double getTemperature() {
@@ -107,27 +75,7 @@ public class HourlyWeatherData {
         return windSpeed;
     }
 
-    public double getWindGust() {
-        return windGust;
-    }
-
-    public double getWindBearing() {
-        return windBearing;
-    }
-
-    public double getCloudCover() {
-        return cloudCover;
-    }
-
-    public double getUvIndex() {
-        return uvIndex;
-    }
-
     public double getVisibility() {
         return visibility;
-    }
-
-    public double getOzone() {
-        return ozone;
     }
 }

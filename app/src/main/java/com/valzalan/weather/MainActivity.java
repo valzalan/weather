@@ -1,6 +1,11 @@
 package com.valzalan.weather;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -11,6 +16,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -19,13 +26,15 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.valzalan.weather.enums.WeatherType;
 import com.valzalan.weather.models.WeatherModel;
 import com.valzalan.weather.repository.Repository;
-import com.valzalan.weather.repository.RepositoryObserver;
+import com.valzalan.weather.repository.WeatherObserver;
 import com.valzalan.weather.utilities.Util;
 import com.valzalan.weather.views.details.DetailsFragment;
 import com.valzalan.weather.views.main.MainFragment;
+import com.valzalan.weather.views.search.SearchActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,38 +44,76 @@ import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RepositoryObserver {
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, WeatherObserver {
     private static final String TAG = "MainActivity";
     private TextView dateAndTime;
     private final Handler dateHandler = new Handler();
     private final Runnable dateRunnable = this::setCurrentDateAndTimeText;
+    private final int COURSE_LOCATION_PERMISSION = 100;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         ((NavigationView) findViewById(R.id.nav_view)).setNavigationItemSelectedListener(this);
         setupPager();
-
         dateAndTime = findViewById(R.id.tvDateAndTime);
         setupDateTimer();
-
         findViewById(R.id.ibMenu).setOnClickListener(v -> openDrawer());
         findViewById(R.id.ibAdd).setOnClickListener(v -> startSearchView());
+        getLocationFromNetwork();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Repository.getInstance().registerObserver(this);
+        Repository.getInstance().registerWeatherObserver(this);
         hideSystemUI();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Repository.getInstance().removeObserver(this);
+        Repository.getInstance().removeWeatherObserver(this);
+    }
+
+    private void getLocationFromNetwork() {
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION) != PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION},
+                    COURSE_LOCATION_PERMISSION);
+        } else {
+            Log.d(TAG, "Trying to get location...");
+            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    Log.d(TAG, "Got location!" + location);
+                    Repository.getInstance().setLatitude(location.getLatitude());
+                    Repository.getInstance().setLongitude(location.getLongitude());
+                    Repository.getInstance().getWeather();
+                }
+                @Override public void onStatusChanged(String s, int i, Bundle bundle){
+                    Log.d(TAG, "Network status changed");
+                }
+                @Override public void onProviderEnabled(String s){
+                    Log.d(TAG, "Network enabled");
+                }
+                @Override public void onProviderDisabled(String s) {
+                    Snackbar.make(
+                            findViewById(R.id.mainContainer),
+                            "Could not get location. Network provider denied.",
+                            Snackbar.LENGTH_LONG).show();
+                }
+            });
+        }
+    }
+
+    private void getLocationFromLocale(){
+        String localeCountry = getResources().getConfiguration().locale.getCountry();
     }
 
     private void openDrawer() {
@@ -93,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void startSearchView() {
-
+        startActivity(new Intent(this, SearchActivity.class));
     }
 
     private void setBackgroundGradient(WeatherType weatherType) {
@@ -140,6 +187,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == COURSE_LOCATION_PERMISSION && grantResults[0] == PERMISSION_GRANTED){
+            getLocationFromNetwork();
+        }
     }
 
     private class WeatherPagerAdapter extends FragmentStatePagerAdapter {
