@@ -20,16 +20,16 @@ public class DetailsItemView extends FrameLayout {
         ((LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                 .inflate(R.layout.details_item, this, true);
 
-        TypedArray arr = context.obtainStyledAttributes(attrs,
-                R.styleable.DetailsItemView, 0, 0);
+        TypedArray arr = context.obtainStyledAttributes(attrs, R.styleable.DetailsItemView, 0, 0);
 
         ((TextView) findViewById(R.id.tvTitle))
                 .setText(arr.getString(R.styleable.DetailsItemView_di_title));
 
         setValue(arr.getString(R.styleable.DetailsItemView_di_value));
 
+        int iconRes = arr.getResourceId(R.styleable.DetailsItemView_di_icon, R.drawable.ic_sun);
         ((ImageView) findViewById(R.id.ivIcon))
-                .setImageResource(arr.getResourceId(R.styleable.DetailsItemView_di_icon, R.drawable.ic_sun));
+                .setImageResource(arr.getResourceId(R.styleable.DetailsItemView_di_icon, iconRes));
 
         arr.recycle();
     }

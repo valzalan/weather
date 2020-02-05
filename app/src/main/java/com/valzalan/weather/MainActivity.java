@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void setBackgroundGradient(WeatherType weatherType) {
-        Util.Gradient gradient = Util.getGradient(this, weatherType);
+        Util.Gradient gradient = Util.getGradientForWeatherType(this, weatherType);
 
         GradientDrawable drawable = new GradientDrawable(
                 GradientDrawable.Orientation.TOP_BOTTOM,

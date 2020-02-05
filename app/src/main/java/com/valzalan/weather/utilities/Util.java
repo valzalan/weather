@@ -1,9 +1,7 @@
 package com.valzalan.weather.utilities;
 
-import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
-import android.view.View;
 
 import androidx.core.content.ContextCompat;
 
@@ -91,7 +89,35 @@ public class Util {
 
     }
 
-    public static Gradient getGradient(Context ctx, WeatherType weatherType){
+    public static int getIconResForWeatherType(WeatherType weatherType){
+        switch (weatherType){
+            case CLEAR_DAY:
+                return R.drawable.ic_sun;
+            case CLEAR_NIGHT:
+                return R.drawable.ic_moon;
+            case RAIN:
+                return R.drawable.ic_rain;
+            case SNOW:
+                return R.drawable.ic_snowflake;
+            case SLEET:
+                return R.drawable.ic_sleet;
+            case WIND:
+                return R.drawable.ic_wind;
+            case FOG:
+                return R.drawable.ic_fog;
+            case CLOUDY:
+                return R.drawable.ic_cloud;
+            case PARTLY_CLOUDY_DAY:
+                return R.drawable.ic_partly_cloudy_day;
+            case PARTLY_CLOUDY_NIGHT:
+                return R.drawable.ic_partly_cloudy_night;
+            default:
+                Log.e(TAG, "Unrecognized WeatherType. Defaulting to clear_day.");
+                return R.drawable.ic_sun;
+        }
+    }
+
+    public static Gradient getGradientForWeatherType(Context ctx, WeatherType weatherType){
         switch (weatherType){
             case CLEAR_DAY:
                 return new Gradient(ctx, R.color.clearDayGradientStart, R.color.clearDayGradientEnd);

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.valzalan.weather.R;
 import com.valzalan.weather.enums.DayOfWeek;
 import com.valzalan.weather.models.ForecastModel;
+import com.valzalan.weather.utilities.Util;
 
 import java.util.List;
 
@@ -35,6 +36,7 @@ public class ForecastAdapter extends RecyclerView.Adapter<ForecastAdapter.ViewHo
         ForecastModel model = dataset.get(position);
         String day = DayOfWeek.fromValue(position <= 6 ? position : position % 6).toShortString();
         holder.day.setText(day);
+        holder.icon.setImageResource(Util.getIconResForWeatherType(model.getWeatherType()));
         int precip = model.getPrecipitation();
         holder.precipitation.setText(precip > 0 ? precip + " %" : "");
         holder.tempMax.setText(model.getTempMax() + " °C");

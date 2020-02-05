@@ -44,11 +44,12 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        app:di_title="@string/feels_like"
         app:layout_constraintEnd_toStartOf="@id/diWind"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDetails" />
+        app:layout_constraintTop_toBottomOf="@+id/tvDetails"
+        app:di_title="@string/feels_like"
+        app:di_icon="@drawable/ic_temperature"/>
 
     <com.valzalan.weather.components.DetailsItemView
         android:id="@+id/diWind"
@@ -56,12 +57,13 @@
         android:layout_height="@dimen/detailsItemWidth"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        app:di_title="@string/wind"
         app:layout_constraintBottom_toBottomOf="@id/diFeelsLike"
         app:layout_constraintEnd_toStartOf="@id/diHumidity"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@id/diFeelsLike"
-        app:layout_constraintTop_toTopOf="@+id/diFeelsLike" />
+        app:layout_constraintTop_toTopOf="@+id/diFeelsLike"
+        app:di_title="@string/wind"
+        app:di_icon="@drawable/ic_wind"/>
 
     <com.valzalan.weather.components.DetailsItemView
         android:id="@+id/diHumidity"
@@ -69,12 +71,13 @@
         android:layout_height="@dimen/detailsItemWidth"
         android:layout_marginEnd="@dimen/pageMargin"
         android:layout_marginRight="@dimen/pageMargin"
-        app:di_title="@string/humidity"
         app:layout_constraintBottom_toBottomOf="@id/diWind"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@id/diWind"
-        app:layout_constraintTop_toTopOf="@+id/diWind" />
+        app:layout_constraintTop_toTopOf="@+id/diWind"
+        app:di_title="@string/humidity"
+        app:di_icon="@drawable/ic_humidity"/>
 
     <com.valzalan.weather.components.DetailsItemView
         android:id="@+id/diPressure"
@@ -85,11 +88,12 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        app:di_title="@string/pressure"
         app:layout_constraintEnd_toStartOf="@id/diVisibility"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/diFeelsLike" />
+        app:layout_constraintTop_toBottomOf="@+id/diFeelsLike"
+        app:di_title="@string/pressure"
+        app:di_icon="@drawable/ic_pressure"/>
 
     <com.valzalan.weather.components.DetailsItemView
         android:id="@+id/diVisibility"
@@ -97,12 +101,13 @@
         android:layout_height="@dimen/detailsItemWidth"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        app:di_title="@string/visibility"
         app:layout_constraintBottom_toBottomOf="@id/diPressure"
         app:layout_constraintEnd_toStartOf="@id/diDewPoint"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@id/diPressure"
-        app:layout_constraintTop_toTopOf="@+id/diPressure" />
+        app:layout_constraintTop_toTopOf="@+id/diPressure"
+        app:di_title="@string/visibility"
+        app:di_icon="@drawable/ic_visibility"/>
 
     <com.valzalan.weather.components.DetailsItemView
         android:id="@+id/diDewPoint"
@@ -110,12 +115,13 @@
         android:layout_height="@dimen/detailsItemWidth"
         android:layout_marginEnd="@dimen/pageMargin"
         android:layout_marginRight="@dimen/pageMargin"
-        app:di_title="@string/dew_point"
         app:layout_constraintBottom_toBottomOf="@id/diVisibility"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toEndOf="@id/diVisibility"
-        app:layout_constraintTop_toTopOf="@+id/diVisibility" />
+        app:layout_constraintTop_toTopOf="@+id/diVisibility"
+        app:di_title="@string/dew_point"
+        app:di_icon="@drawable/ic_dew_point"/>
 
     <TextView
         android:id="@+id/tvRainChance"

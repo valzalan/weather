@@ -2,11 +2,12 @@ package com.valzalan.weather.views.main;
 
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,6 +33,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MainFragment extends Fragment implements MainView {
+    private static final String TAG = "MainFragment";
     private MainPresenter presenter;
     private LineChart chart;
 
@@ -62,6 +64,7 @@ public class MainFragment extends Fragment implements MainView {
     public void update(WeatherModel model) {
         View v = getView();
         updateChart(model.getTempNextSixHours());
+        setIcon(model.getWeatherType());
         TextView summary = v.findViewById(R.id.tvWeather);
         summary.setText(model.getSummary());
         summary.setSelected(true);
@@ -71,6 +74,11 @@ public class MainFragment extends Fragment implements MainView {
                 .setText(Util.formatTempString(model.getTempMax()));
         ((TextView) v.findViewById(R.id.tvTempMin))
                 .setText(Util.formatTempString(model.getTempMin()));
+    }
+
+    private void setIcon(WeatherType weatherType){
+        ImageView icon = getView().findViewById(R.id.ivWeather);
+        icon.setImageResource(Util.getIconResForWeatherType(weatherType));
     }
 
     private void setupChart(){
