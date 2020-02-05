@@ -2,6 +2,7 @@ package com.valzalan.weather;
 
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,22 +27,33 @@ import com.valzalan.weather.utilities.Util;
 import com.valzalan.weather.views.details.DetailsFragment;
 import com.valzalan.weather.views.main.MainFragment;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, RepositoryObserver {
     private static final String TAG = "MainActivity";
+    private TextView dateAndTime;
+    private final Handler dateHandler = new Handler();
+    private final Runnable dateRunnable = this::setCurrentDateAndTimeText;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ((NavigationView) findViewById(R.id.nav_view)).setNavigationItemSelectedListener(this);
+        setupPager();
+
+        dateAndTime = findViewById(R.id.tvDateAndTime);
+        setupDateTimer();
+
         findViewById(R.id.ibMenu).setOnClickListener(v -> openDrawer());
         findViewById(R.id.ibAdd).setOnClickListener(v -> startSearchView());
-        ((NavigationView) findViewById(R.id.nav_view)).setNavigationItemSelectedListener(this);
-        ViewPager pager = findViewById(R.id.pager);
-        WeatherPagerAdapter pagerAdapter = new WeatherPagerAdapter(getSupportFragmentManager());
-        pager.setAdapter(pagerAdapter);
     }
 
     @Override
@@ -57,12 +69,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Repository.getInstance().removeObserver(this);
     }
 
-    private void openDrawer(){
+    private void openDrawer() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.openDrawer(GravityCompat.START);
     }
 
-    private void startSearchView(){
+    private void setupPager(){
+        ViewPager pager = findViewById(R.id.pager);
+        WeatherPagerAdapter pagerAdapter = new WeatherPagerAdapter(getSupportFragmentManager());
+        pager.setAdapter(pagerAdapter);
+    }
+
+    private void setupDateTimer(){
+        new Timer().schedule(new TimerTask() {
+            @Override public void run() {dateHandler.post(dateRunnable);}
+        }, 0, 1000);
+    }
+
+    private void setCurrentDateAndTimeText() {
+        SimpleDateFormat formatter = new SimpleDateFormat("EEE, h:mm a", Locale.getDefault());
+        String dateAndTimeString = formatter.format(new Date());
+        dateAndTime.setText(dateAndTimeString);
+    }
+
+    private void startSearchView() {
 
     }
 
@@ -82,11 +112,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch(menuItem.getItemId()) {
             case R.id.notifications:
                 Log.d(TAG, "Notifications menu clicked!");
+                return true;
             case R.id.settings:
                 Log.d(TAG, "Settings menu clicked!");
+                return true;
             case R.id.about:
                 Log.d(TAG, "About menu clicked!");
+                return true;
             default:
+                Log.e(TAG, "Unrecognized menu item id. No action taken.");
                 return true;
         }
     }
