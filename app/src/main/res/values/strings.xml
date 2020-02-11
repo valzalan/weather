@@ -10,6 +10,7 @@
     <string name="pressure">Pressure</string>
     <string name="visibility">Visibility</string>
     <string name="dew_point">Dew Point</string>
+    <string name="location_input_hint">Search for a city</string>
 
     <!-- Content Descriptions -->
     <string name="cd_menu">Menu</string>

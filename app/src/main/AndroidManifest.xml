@@ -4,6 +4,7 @@
     package="com.valzalan.weather">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -21,7 +22,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".details.DetailsActivity"/>
-        <activity android:name=".search.SearchActivity"/>
+        <activity android:name=".views.details.DetailsFragment"/>
+        <activity android:name=".views.search.SearchActivity"/>
     </application>
 </manifest>

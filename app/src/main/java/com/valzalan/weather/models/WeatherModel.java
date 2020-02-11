@@ -1,12 +1,13 @@
 package com.valzalan.weather.models;
 
-import com.valzalan.weather.api.responses.CurrentWeatherData;
-import com.valzalan.weather.api.responses.DailyWeather;
-import com.valzalan.weather.api.responses.DailyWeatherData;
-import com.valzalan.weather.api.responses.ForecastResponse;
-import com.valzalan.weather.api.responses.HourlyWeatherData;
+import com.valzalan.weather.api.responses.darksky.CurrentWeatherData;
+import com.valzalan.weather.api.responses.darksky.DailyWeatherData;
+import com.valzalan.weather.api.responses.darksky.DataHeader;
+import com.valzalan.weather.api.responses.darksky.ForecastResponse;
+import com.valzalan.weather.api.responses.darksky.HourlyWeatherData;
 import com.valzalan.weather.enums.DayOfWeek;
 import com.valzalan.weather.enums.WeatherType;
+import com.valzalan.weather.utilities.Util;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,15 +33,15 @@ public class WeatherModel {
 
     public WeatherModel(ForecastResponse response){
         CurrentWeatherData current = response.getCurrentWeather();
-        DailyWeather daily = response.getDailyWeather();
+        DataHeader<DailyWeatherData> daily = response.getDailyWeather();
 
         String zone = response.getTimezone();
         this.locationName = zone.substring(zone.indexOf('/') + 1).replace('_', ' ');
         this.summary = current.getSummary();
         this.weatherType = WeatherType.fromValue(current.getIcon());
         this.temp = (int) current.getTemperature();
-        this.tempMax = (int) daily.getData().get(0).getTemperatureMax();
-        this.tempMin = (int) daily.getData().get(0).getTemperatureMin();
+        this.tempMax = (int) daily.getData().get(0).getTemperatureHigh();
+        this.tempMin = (int) daily.getData().get(0).getTemperatureLow();
         this.tempNextSixHours = createTemperatureForecast(response.getHourlyWeatherData().getData());
         this.apparentTemp = (int) current.getApparentTemperature();
         this.windSpeed = (int) current.getWindSpeed();
@@ -63,7 +64,7 @@ public class WeatherModel {
     private int[] createTemperatureForecast(List<HourlyWeatherData> list){
         int[] result = new int[6];
         for(int i = 0; i < result.length; i++){
-            result[i] = (int) list.get(i).getTemperature();
+            result[i] = Util.getTempInActiveUnit((int) list.get(i).getTemperature());
         }
         return result;
     }
@@ -81,8 +82,8 @@ public class WeatherModel {
                 DayOfWeek.MONDAY,
                 (int) data.getPrecipProbability() * 100,
                 WeatherType.fromValue(data.getIcon()),
-                (int) data.getTemperatureMax(),
-                (int) data.getTemperatureMin()
+                (int) data.getTemperatureHigh(),
+                (int) data.getTemperatureLow()
         );
     }
 
@@ -99,15 +100,15 @@ public class WeatherModel {
     }
 
     public int getTemp() {
-        return temp;
+        return Util.getTempInActiveUnit(temp);
     }
 
     public int getTempMax() {
-        return tempMax;
+        return Util.getTempInActiveUnit(tempMax);
     }
 
     public int getTempMin() {
-        return tempMin;
+        return Util.getTempInActiveUnit(tempMin);
     }
 
     public int[] getTempNextSixHours() {
@@ -115,11 +116,11 @@ public class WeatherModel {
     }
 
     public int getApparentTemp() {
-        return apparentTemp;
+        return Util.getTempInActiveUnit(apparentTemp);
     }
 
     public int getWindSpeed() {
-        return windSpeed;
+        return Util.getSpeedInActiveUnit(windSpeed);
     }
 
     public int getHumidity() {
@@ -135,7 +136,7 @@ public class WeatherModel {
     }
 
     public int getDewPoint() {
-        return dewPoint;
+        return Util.getTempInActiveUnit(dewPoint);
     }
 
     public int[] getPrecipitationForecast() {

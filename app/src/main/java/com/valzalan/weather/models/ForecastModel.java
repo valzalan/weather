@@ -2,6 +2,7 @@ package com.valzalan.weather.models;
 
 import com.valzalan.weather.enums.DayOfWeek;
 import com.valzalan.weather.enums.WeatherType;
+import com.valzalan.weather.utilities.Util;
 
 public class ForecastModel {
     private DayOfWeek day;
@@ -31,10 +32,10 @@ public class ForecastModel {
     }
 
     public int getTempMax() {
-        return tempMax;
+        return Util.getTempInActiveUnit(tempMax);
     }
 
     public int getTempMin() {
-        return tempMin;
+        return Util.getTempInActiveUnit(tempMin);
     }
 }
