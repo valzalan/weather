@@ -32,14 +32,14 @@ public class Repository implements Subject, Callback<ForecastResponse>{
 
     private Repository() {
         weatherModel = new WeatherModel();
-        getWeather(BUD_LAT, BUD_LONG);
+        getWeatherForLocation(BUD_LAT, BUD_LONG);
     }
 
     public static Repository getInstance(){
         return instance;
     }
 
-    private void getWeather(double lat, double lon){
+    private void getWeatherForLocation(double lat, double lon){
         GetForecastEndpoint endpoint = RetrofitClient.getRetrofitInstance().create(GetForecastEndpoint.class);
         Call<ForecastResponse> call = endpoint.getForecast(API_KEY, lat, lon);
         call.enqueue(this);
@@ -70,7 +70,6 @@ public class Repository implements Subject, Callback<ForecastResponse>{
 
     @Override
     public void onResponse(@NonNull Call<ForecastResponse> call, Response<ForecastResponse> response) {
-        Log.d(TAG, "Success");
         if(response.body() != null){
             weatherModel = new WeatherModel(response.body());
             notifyObservers();
@@ -80,7 +79,6 @@ public class Repository implements Subject, Callback<ForecastResponse>{
     @SuppressWarnings("ConstantConditions")
     @Override
     public void onFailure(@NonNull Call<ForecastResponse> call, Throwable t) {
-        Log.e(TAG, "Error");
         Log.e(TAG, t.getMessage());
     }
 }
