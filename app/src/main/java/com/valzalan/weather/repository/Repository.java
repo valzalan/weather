@@ -163,7 +163,6 @@ public class Repository implements Subject {
         }
     }
 
-    @Override
     public void registerPlaceObserver(PlaceObserver observer) {
         if(!placeObservers.contains(observer)) {
             placeObservers.add(observer);
@@ -171,7 +170,6 @@ public class Repository implements Subject {
         }
     }
 
-    @Override
     public void removePlaceObserver(PlaceObserver observer) {
         placeObservers.remove(observer);
     }
