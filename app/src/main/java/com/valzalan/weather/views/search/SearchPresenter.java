@@ -4,4 +4,5 @@ public interface SearchPresenter {
     void viewPaused();
     void viewResumed();
     void onInputChanged(String input);
+    void onSearchItemClick(String placeId);
 }

@@ -1,6 +1,7 @@
 package com.valzalan.weather.api.endpoints;
 
 import com.valzalan.weather.api.responses.google.places.AutocompleteResponse;
+import com.valzalan.weather.api.responses.google.places.DetailsResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -13,5 +14,11 @@ public interface GooglePlacesEndpoint {
             @Query("types") String types,
             @Query("key") String key,
             @Query("sessiontoken") String sessionToken
+    );
+
+    @GET("details/json")
+    Call<DetailsResponse> getDetails(
+            @Query("place_id") String placeId,
+            @Query("key") String key
     );
 }

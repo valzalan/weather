@@ -10,6 +10,7 @@ import com.valzalan.weather.api.network.DarkSkyWeatherClient;
 import com.valzalan.weather.api.network.GooglePlacesClient;
 import com.valzalan.weather.api.responses.darksky.ForecastResponse;
 import com.valzalan.weather.api.responses.google.places.AutocompleteResponse;
+import com.valzalan.weather.api.responses.google.places.DetailsResponse;
 import com.valzalan.weather.api.responses.google.places.Prediction;
 import com.valzalan.weather.enums.DistanceUnit;
 import com.valzalan.weather.enums.PressureUnit;
@@ -87,7 +88,6 @@ public class Repository implements Subject {
         Call<ForecastResponse> call = endpoint.getForecast(API_KEY_DARKSKY, latitude, longitude);
         call.enqueue(new Callback<ForecastResponse>() {
             @Override public void onResponse(@NonNull Call<ForecastResponse> call, @NonNull Response<ForecastResponse> response) {
-                Log.d(TAG, "Weather Success");
                 if(response.body() != null){
                     weatherModel = new WeatherModel(response.body());
                     notifyWeatherObservers();
@@ -109,7 +109,6 @@ public class Repository implements Subject {
         Call<AutocompleteResponse> call = endpoint.getAutocomplete(input,"(cities)", API_KEY_GOOGLE, sessionToken);
         call.enqueue(new Callback<AutocompleteResponse>() {
             @Override public void onResponse(@NonNull Call<AutocompleteResponse> call, @NonNull Response<AutocompleteResponse> response) {
-                Log.d(TAG, "Places success");
                 if(response.body() != null){
                     Log.d(TAG, response.body().getStatus());
                     if(response.body().getPredictions().size() > 0) Log.d(TAG, response.body().getPredictions().get(0).getDescription());
@@ -119,6 +118,25 @@ public class Repository implements Subject {
                 }
             }
             @Override public void onFailure(@NonNull Call<AutocompleteResponse> call, @NonNull Throwable t) {
+                Log.e(TAG, "Error");
+                Log.e(TAG, t.getMessage());
+            }
+        });
+    }
+
+    public void getPlaceDetails(String placeId){
+        GooglePlacesEndpoint endpoint = GooglePlacesClient.getRetrofitInstance().create(GooglePlacesEndpoint.class);
+        Call<DetailsResponse> call = endpoint.getDetails(placeId, API_KEY_GOOGLE);
+        call.enqueue(new Callback<DetailsResponse>() {
+            @Override public void onResponse(@NonNull Call<DetailsResponse> call, @NonNull Response<DetailsResponse> response) {
+                if(response.body() != null){
+                    latitude = response.body().getLatitude();
+                    longitude = response.body().getLongitude();
+                    getWeather();
+                    notifyPlaceObservers();
+                }
+            }
+            @Override public void onFailure(@NonNull Call<DetailsResponse> call, @NonNull Throwable t) {
                 Log.e(TAG, "Error");
                 Log.e(TAG, t.getMessage());
             }

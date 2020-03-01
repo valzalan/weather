@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface SearchView {
     void updateList(List<Prediction> list);
+    void back();
 }

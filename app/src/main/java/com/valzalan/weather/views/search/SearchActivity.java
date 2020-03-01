@@ -2,7 +2,6 @@ package com.valzalan.weather.views.search;
 
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -18,7 +17,6 @@ import com.valzalan.weather.api.responses.google.places.Prediction;
 import com.valzalan.weather.enums.WeatherType;
 import com.valzalan.weather.repository.Repository;
 import com.valzalan.weather.utilities.Util;
-import com.valzalan.weather.views.details.ForecastAdapter;
 
 import java.util.List;
 
@@ -79,7 +77,12 @@ public class SearchActivity extends AppCompatActivity implements SearchView {
 
     @Override
     public void updateList(List<Prediction> list) {
-        LocationAdapter adapter = new LocationAdapter(list);
+        LocationAdapter adapter = new LocationAdapter(list, presenter);
         locationList.setAdapter(adapter);
+    }
+
+    @Override
+    public void back() {
+        finish();
     }
 }

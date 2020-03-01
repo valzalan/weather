@@ -15,9 +15,11 @@ import java.util.List;
 
 public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHolder> {
     private List<Prediction> dataset;
+    private SearchPresenter presenter;
 
-    LocationAdapter(List<Prediction> dataset) {
+    LocationAdapter(List<Prediction> dataset, SearchPresenter presenter) {
         this.dataset = dataset;
+        this.presenter = presenter;
     }
 
     @NonNull
@@ -32,6 +34,8 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
     public void onBindViewHolder(ViewHolder holder, int position) {
         Prediction data = dataset.get(position);
         holder.cityName.setText(data.getDescription());
+        holder.container.setBackgroundResource(R.drawable.details_item_bg);
+        holder.container.setOnClickListener(v -> presenter.onSearchItemClick(data.getPlaceId()));
     }
 
     @Override
@@ -41,9 +45,11 @@ public class LocationAdapter extends RecyclerView.Adapter<LocationAdapter.ViewHo
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView cityName;
+        View container;
         ViewHolder(View v) {
             super(v);
             cityName = v.findViewById(R.id.tvCityName);
+            container = v;
         }
     }
 }

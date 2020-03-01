@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface PlaceObserver {
     void onPredictionsChanged(List<Prediction> predictions);
+    void onDetailsResponse();
 }
